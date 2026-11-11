@@ -56,6 +56,7 @@
       '【代码】', q.code || q.display || '',
       (q.steps || []).length ? '【真实执行轨迹】\n' + localSteps(q) : '',
       '【正确答案】' + q.answer,
+      (q.alt && q.alt.length) ? '【等价答案】' + q.alt.join('、') + '（与上面的标准答案同样正确）' : '',
       '【解析】' + q.explain,
       q.expected ? '【预期输出】\n' + q.expected : '',
       '【练习建议】在「执行过程」里从第 1 步点到最后一步，边点边说出每个变量的值，再回来看解析。',
@@ -64,11 +65,20 @@
 
   function localWrong(q, r) {
     const mine = (r && r.answer) || '未作答';
+    const same = r && typeof sameAns === 'function' && sameAns(r.answer, q.answer);
+    if (same || (r && r.ok)) {
+      const alts = (q.alt && q.alt.length) ? '这道题的等价解法还有：' + q.alt.join('、') + '。' : '';
+      return [
+        (r && r.alt) ? ('你填的「' + mine + '」与标准答案「' + q.answer + '」是等价解法，同样正确，这次不算错。' + alts) : '这道题你已答对，没有需要纠正的地方。',
+        '【解析】' + q.explain,
+        '【练习建议】想更稳的话，在「执行过程」里把每一步的变量值自己复述一遍，再对照答案。',
+      ].filter(Boolean).join('\n');
+    }
     const steps = q.steps || [];
     const last = steps[steps.length - 1];
     const lastVars = last ? Object.entries(last.variables || {}).map(function (e) { return e[0] + ' = ' + e[1]; }).join('，') : '';
     return [
-      '你选的是「' + mine + '」，正确答案是「' + q.answer + '」。',
+      '你选的是「' + mine + '」，正确答案是「' + q.answer + '"' + ((q.alt && q.alt.length) ? '（等价写法：' + q.alt.join('、') + '）' : '') + '。',
       last ? '【关键一步】执行到第 ' + last.line + ' 行时：' + (lastVars || '变量状态如上') + (last.output ? '，输出 ' + last.output : '') + '。' : '',
       '【正确思路】' + q.explain,
       '【最容易错的地方】' + q.topic + '：先确认类型、边界和返回值，再算结果。',
