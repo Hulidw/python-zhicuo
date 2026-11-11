@@ -1,7 +1,7 @@
 /* 知错 Service Worker：静态资源缓存优先 + 后台更新；/api/ 请求不走缓存。
    发布新版本时把 V 与 CORE 里的版本号一起更新。 */
-const V = 'zhichuo-v30';
-const CORE = ['./', 'index.html', 'style.css?v=29', 'questions.js?v=27', 'pitfalls.js?v=26', 'ai.js?v=30', 'app.js?v=30', 'config.js', 'account.js', 'adaptive.js', 'manifest.webmanifest', 'icon-512.png'];
+const V = 'zhichuo-v31';
+const CORE = ['./', 'index.html', 'style.css?v=29', 'questions.js?v=27', 'pitfalls.js?v=26', 'ai.js?v=30', 'app.js?v=31', 'config.js', 'account.js', 'adaptive.js', 'manifest.webmanifest', 'icon-512.png'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(V).then(c => Promise.allSettled(CORE.map(u => c.add(new Request(u, { cache: 'reload' }))))).then(() => self.skipWaiting()));
