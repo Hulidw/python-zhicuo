@@ -38,3 +38,12 @@ ul.tips code,ol.steps code,p code,td code{background:#eef3ec;border-radius:4px;p
 #toast{position:fixed;left:50%;bottom:38px;transform:translate(-50%,20px);background:#1d342e;color:#e6f2e9;padding:10px 18px;border-radius:22px;font-size:13px;opacity:0;pointer-events:none;transition:.2s;z-index:99}
 #toast.show{opacity:1;transform:translate(-50%,0)}
 @media(max-width:600px){nav a{flex:1 1 30%}.card.pit{grid-template-columns:34px 1fr;gap:10px}.card.pit .link{grid-column:2}.card.pit h3{font-size:15px}.chips{gap:6px}.chip{font-size:12px;padding:7px 11px}.tbl th:first-child,.tbl td:first-child{width:34%}#toast{bottom:calc(20px + var(--safe-bottom))}}
+/* 错误地图：可点击代码行 + 调试工具箱 pdb 模拟器 */
+pre.code.num>span[onclick]{cursor:pointer;border-radius:4px}
+pre.code.num>span[onclick]:hover{background:#e8f0e9}
+pre.code.num>span[onclick]:active{background:#d8e6dc}
+.pdbrow{display:flex;gap:8px;align-items:center;margin-top:12px}
+.pdbrow input{flex:1;min-width:0;min-height:38px;padding:8px 10px;border:1px solid #d5dfd5;border-radius:8px;font:13px/1.5 Consolas,'Microsoft YaHei',monospace;background:#fff;color:#22372f}
+pre.pdb{background:#101a16;color:#c8e6d5;border-radius:8px;padding:14px;font:12.5px/1.65 Consolas,'Microsoft YaHei',monospace;min-height:176px;max-height:280px;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;margin-top:12px}
+@media(max-width:600px){.pdbrow input{font-size:12px}pre.pdb{max-height:230px}}
+
