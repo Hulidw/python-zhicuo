@@ -68,10 +68,12 @@ for idx,(cat,topic,code,expected,explain,w1,w2) in enumerate(rows):
     options=[expected,w1,w2]; options=options[idx%3:]+options[:idx%3]
     kind='输出选择题'; prompt='这段代码会输出什么？'; answer=expected; display=code
     if idx in (1,11,22):
-        kind='填空题'; token={1:'-1',11:'2',22:'2'}[idx]; display=code.replace(token,'___',1);answer=token;prompt='填入一个整数，使代码输出：'+expected
+        kind='填空题'; token={1:'-1',11:'2',22:'2'}[idx]; assert token in code,(idx,'挖空目标不存在'); display=code.replace(token,'___',1);answer=token;prompt='填入一个整数，使代码输出：'+expected
     if idx in (5,15,26):
         kind='找错题';prompt='哪一项正确解释了这段代码的行为？';answer=explain;options=[explain,'每一行代码都会按书写顺序执行且只执行一次。','函数和方法总会自动返回最后计算的数值。'];options=options[1:]+options[:1]
     assert len(set(options)) == 3, (idx, options)
-    questions.append(dict(id=idx,category=cat,topic=topic,code=code,display=display,kind=kind,prompt=prompt,answer=answer,options=options,explain=explain,steps=steps,expected=expected,level='基础' if idx<30 else '变式巩固'))
+    # 同一道填空题可能有多种正确解法，全部记录下来，前端一并判对
+    alt_answers={1:['2']}  # a[2] 与 a[-1] 输出相同
+    questions.append(dict(id=idx,category=cat,topic=topic,code=code,display=display,kind=kind,prompt=prompt,answer=answer,alt=alt_answers.get(idx,[]),options=options,explain=explain,steps=steps,expected=expected,level='基础' if idx<30 else '变式巩固'))
 Path(__file__).with_name('dist').joinpath('questions.js').write_text('const QUESTIONS = '+json.dumps(questions,ensure_ascii=False)+';',encoding='utf-8')
 print(f'Verified {len(questions)} answers and generated execution traces.')
