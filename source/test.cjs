@@ -1,6 +1,6 @@
 const fs=require('fs'),vm=require('vm'),assert=require('assert');
 const elements={};const storage={};const ctx=vm.createContext({console,Date,Set,JSON,Math,alert:()=>{},location:{hash:''},window:{},localStorage:{getItem:k=>storage[k],setItem:(k,v)=>storage[k]=v},document:{querySelector:s=>elements[s]||(elements[s]={innerHTML:'',insertAdjacentHTML:()=>{}})}});
-vm.runInContext(fs.readFileSync('dist/questions.js','utf8')+'\n'+fs.readFileSync('dist/pitfalls.js','utf8')+'\n'+fs.readFileSync('dist/app.js','utf8')+'\n'+fs.readFileSync('dist/adaptive.js','utf8'),ctx);
+vm.runInContext(fs.readFileSync('dist/questions.js','utf8')+'\n'+fs.readFileSync('dist/pitfalls.js','utf8')+'\n'+fs.readFileSync('dist/recipes.js','utf8')+'\n'+fs.readFileSync('dist/app.js','utf8')+'\n'+fs.readFileSync('dist/adaptive.js','utf8'),ctx);
 function run(s){return vm.runInContext(s,ctx)}
 assert.equal(run('QUESTIONS.length'),120);
 run("start(null,[20]);selection='5';submitAnswer()");assert.equal(run('db.records[0].ok'),false);assert.equal(run('db.mistakes[20].reason'),'待确认');
@@ -19,5 +19,15 @@ run("submitAnswer()");assert.equal(run('db.session.done'),true);
 run("start('循环')");assert.equal(run('db.session.ids.length'),5);assert.equal(run('db.session.ids.filter(id=>id>=1000000000).length'),2);assert.equal(run('db.session.ids.filter(id=>id<1000000000).length'),3);
 run("start('循环')");assert.equal(run('db.session.ids.filter(id=>id>=1000000000).length'),2);assert.equal(run("db.session.ids.every(id=>getq(id)&&getq(id).category==='循环')"),true);
 run("start(null,[1]);selection='2';submitAnswer()");assert.equal(run('db.records[11].alt'),true);
+assert.equal(run('RECIPES.length'),12);
+run("go('recipes')");assert.ok(elements['#app'].innerHTML.includes('方法组合'));
+run("rOpen('r01');rsel=['for 遍历','% 取余判断','计数器累加'];rSubmit()");assert.equal(run('db.recipe.r01'),true);
+run("rOpen('r02');rsel=['for 遍历'];rSubmit()");assert.equal(run('db.recipe.r02'),undefined);assert.ok(run('rmsg').includes('还缺'));
+run("rOpen('r02');rsel=['for 遍历','if 条件筛选','累加求和','sort 排序'];rSubmit()");assert.equal(run('db.recipe.r02'),undefined);assert.ok(run('rmsg').includes('多选'));
+run("rOpen('r02');rsel=['生成式筛选','sum 求和'];rSubmit()");assert.equal(run('db.recipe.r02'),true);
+run("rOpen('r06');rHint();rHint();rHint()");assert.equal(run('rhint'),3);
+run("rview='ref';recipes()");assert.ok(elements['#app'].innerHTML.includes('场景速查'));
+run("go('home')");assert.ok(elements['#app'].innerHTML.includes('开始组招'));
+console.log('PASS: method-combination recipes (main/alt accepted, missing/extra feedback, hints, reference view, home entry).');
 console.log('PASS: 120 questions, incorrect answer, editable reason, fill-in, hint tracking, five-question session, trace usage and persistence.');
 console.log('PASS: equivalent answers accepted (a[2] for a[-1], 04 for 4) and wrong answers still rejected.');

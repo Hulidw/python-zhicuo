@@ -135,6 +135,11 @@ pre.code{background:var(--code-bg);color:var(--code-ink);border:1px solid rgba(2
 .code i{color:var(--code-dim);font-style:normal;display:inline-block;width:27px;user-select:none}
 .h-kw{color:#e8b84b;font-weight:700}.h-str{color:#a5d693}.h-num{color:#82b9e8}.h-com{color:#7d9983;font-style:italic}
 .code .h-kw,.code .h-str,.code .h-num,.code .h-com{display:inline}
+.poolchip{display:inline-block;margin:4px 6px 4px 0;padding:8px 12px;border:1px solid var(--line);border-radius:8px;background:var(--paper-2);color:var(--ink);font-size:13px;cursor:pointer;width:auto}
+.poolchip.sel{background:var(--pine);color:#fff;border-color:var(--pine)}
+.poolchip:disabled{opacity:.75;cursor:default}
+.chainchip{display:inline-block;margin:4px 6px 4px 0;padding:7px 11px;border:1px dashed var(--pine-line);border-radius:8px;background:var(--pine-soft);color:var(--ink);font-size:13px;cursor:pointer;width:auto}
+.chainchip:disabled{cursor:default}
 pre.num{padding:14px 10px}
 pre.code.num>span[onclick]{cursor:pointer}
 pre.code.num>span[onclick]:hover{background:rgba(217,164,65,.14)}
