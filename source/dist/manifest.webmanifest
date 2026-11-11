@@ -1,0 +1,15 @@
+{
+  "name": "知错 · Python 易错点学习助手",
+  "short_name": "知错",
+  "description": "Python 易错点学习助手：错误地图、调试工具箱、专项练习与错题本",
+  "lang": "zh-CN",
+  "start_url": ".",
+  "scope": ".",
+  "display": "standalone",
+  "background_color": "#f4f1e6",
+  "theme_color": "#23634c",
+  "icons": [
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
