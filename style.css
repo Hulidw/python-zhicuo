@@ -133,6 +133,7 @@ pre.code{background:var(--code-bg);color:var(--code-ink);border:1px solid rgba(2
 .code span{display:block;padding:0 8px;border-radius:4px}
 .code .current{background:var(--code-hl);border-left:3px solid var(--amber);padding-left:5px}
 .code i{color:var(--code-dim);font-style:normal;display:inline-block;width:27px;user-select:none}
+.h-kw{color:#e8b84b;font-weight:700}.h-str{color:#a5d693}.h-num{color:#82b9e8}.h-com{color:#7d9983;font-style:italic}
 pre.num{padding:14px 10px}
 pre.code.num>span[onclick]{cursor:pointer}
 pre.code.num>span[onclick]:hover{background:rgba(217,164,65,.14)}
