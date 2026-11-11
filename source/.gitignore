@@ -1,0 +1,11 @@
+# 本地配置与密钥
+.env
+
+# 依赖与缓存
+node_modules/
+__pycache__/
+*.pyc
+
+# 系统文件
+.DS_Store
+Thumbs.db
