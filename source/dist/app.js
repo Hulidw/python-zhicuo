@@ -175,5 +175,7 @@ class T(unittest.TestCase):
 <section class="card"><div class="row"><h2>⑨ 报错 → 搜索关键词</h2><span class="muted">点一下复制，直接粘到搜索引擎</span></div><p class="mini">中文描述往往搜不到答案，英文异常名 + 消息才是通行证。搜索时再加上库名和版本号，命中率更高。</p><table class="tbl"><tr><th>异常类型</th><th>常见含义</th><th>建议搜索词</th></tr>${kw.map(p=>`<tr><td>${esc(p.exc)}</td><td>${esc(p.title)}</td><td><button class="chip sm" onclick="copyKw('${p.id}')">${esc(p.keywords[0])}</button></td></tr>`).join('')}</table></section>`;drawPdb()}
 
 route();
+// 后台换到新版本时提示一次刷新，避免停留在旧缓存（首次安装不提示）
+if(typeof navigator!=='undefined'&&navigator.serviceWorker){const hadSW=!!navigator.serviceWorker.controller;navigator.serviceWorker.addEventListener('controllerchange',()=>{if(!hadSW||document.querySelector('.updatebar'))return;const bar=document.createElement('div');bar.className='updatebar';bar.innerHTML='<span>已更新到新版本</span><button onclick="location.reload()">刷新使用新版</button>';document.body.appendChild(bar)})}
 // 键盘快捷作答：选择题按 A/B/C 或 1/2/3 选中；答完按 Enter 进入下一题（输入框、按钮聚焦时不抢按键）
 if(document.addEventListener)document.addEventListener('keydown',e=>{if(page!=='practice'||!db.session)return;const s=db.session;if(!s.ids||!s.ids.length)return;const q=getq(s.ids[s.index]),tg=(e.target&&e.target.tagName)||'';if(tg==='INPUT'||tg==='SELECT'||tg==='TEXTAREA')return;if(!s.done&&q.options&&q.options.length){const m={a:0,b:1,c:2,'1':0,'2':1,'3':2}[e.key.toLowerCase()];if(m!==undefined&&m<q.options.length){choose(m);e.preventDefault()}}else if(s.done&&e.key==='Enter'&&tg!=='BUTTON'){next();e.preventDefault()}});

@@ -251,3 +251,8 @@ main .grid>.card:nth-child(3),main .grid>article:nth-child(3){animation-delay:.1
   .pside .card:last-child{margin-bottom:0}
   .split>section.card:first-child{min-width:0}
 }
+/* ---------- 新版本提示条 ---------- */
+.updatebar{position:fixed;left:50%;bottom:calc(16px + var(--safe-bottom));transform:translateX(-50%);z-index:60;
+  display:flex;align-items:center;gap:14px;background:var(--pine);color:#fff;border-radius:12px;
+  padding:10px 16px;box-shadow:0 8px 24px rgba(35,99,76,.35);font-size:13px}
+.updatebar button{background:#fff;color:var(--pine);border:none;border-radius:8px;padding:6px 12px;font-weight:700;cursor:pointer;font-size:12.5px}
