@@ -16,8 +16,13 @@ run("start(null,[1]);selection='3';submitAnswer()");assert.equal(run('db.records
 run('JSON.parse(backupJSON()).app');assert.equal(run('JSON.parse(backupJSON()).app'),'zhichuo-backup');
 assert.equal(run('JSON.parse(backupJSON()).records.length')>0,true);
 run("submitAnswer()");assert.equal(run('db.session.done'),true);
-run("start('循环')");assert.equal(run('db.session.ids.length'),5);assert.equal(run('db.session.ids.filter(id=>id>=1000000000).length'),2);assert.equal(run('db.session.ids.filter(id=>id<1000000000).length'),3);
-run("start('循环')");assert.equal(run('db.session.ids.filter(id=>id>=1000000000).length'),2);assert.equal(run("db.session.ids.every(id=>getq(id)&&getq(id).category==='循环')"),true);
+run("start('循环')");assert.equal(run('db.session.ids.length'),5);assert.equal(run("db.session.ids.every(id=>id>=1000000000)"),true);assert.equal(run('new Set(db.session.ids).size'),5);assert.equal(run("db.session.ids.every(id=>getq(id)&&getq(id).category==='循环')"),true);
+const firstSet=run('db.session.ids.join(",")');
+run("start('循环')");const secondSet=run('db.session.ids.join(",")');assert.notEqual(firstSet,secondSet);
+assert.equal(run("db.session.ids.filter(id=>id>=1000000000).length"),5);
+const genIdForSimilar=run('db.session.ids[0]');
+run(`similar(${genIdForSimilar})`);assert.equal(run('db.session.ids.length'),5);assert.equal(run("db.session.ids.every(id=>id>=1000000000)"),true);assert.equal(run(`db.session.ids.every(id=>getq(id).topic===getq(${genIdForSimilar}).topic)`),true);
+console.log('PASS: unlimited generation - 5 fresh generated questions per session, variety across sessions, similar() generates same-topic variants.');
 run("start(null,[1]);selection='2';submitAnswer()");assert.equal(run('db.records[11].alt'),true);
 assert.equal(run('RECIPES.length'),12);
 run("go('recipes')");assert.ok(elements['#app'].innerHTML.includes('方法组合'));
